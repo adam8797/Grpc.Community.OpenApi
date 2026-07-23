@@ -9,6 +9,6 @@
 
     <Reference Include="Grpc.AspNetCore" />
     <Reference Include="Microsoft.AspNetCore.Grpc.JsonTranscoding" />
-    <Reference Include="Microsoft.AspNetCore.Grpc.Swagger" />
+    <Reference Include="Grpc.Community.SwaggerGen" />
   </ItemGroup>
 </Project>
