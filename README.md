@@ -6,6 +6,10 @@ This repo is meant to continue the life of that package, and even port it to Ope
 
 The initial commit will be the extracted code, verbatim. You can follow through the commit history to see whats been modified.
 
+# Examples
+
+You'll find examples in the `examples/` directory, this library is generally a one-liner to get added.
+
 # Status
 
 I've freshly copied the code and made the needed modifications to build. There's a few kinks to iron out, but I plan on trying to get the Swagger-based package published as `Grpc.Community.SwaggerGen` soon™
