@@ -80,7 +80,7 @@ jobs:
       - name: Download package artifact
         uses: actions/download-artifact@v4
         with:
-          name: nupkg
+          name: Community.Grpc.SwaggerGen.${{ steps.version.outputs.version }}.nupkg
           path: artifacts
 
       - name: Setup .NET
