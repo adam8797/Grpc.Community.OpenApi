@@ -35,5 +35,6 @@
 		<Protobuf Include="Proto\xmldoc.proto" GrpcServices="Both" />
 		<Protobuf Include="Proto\greeter.proto" GrpcServices="Both" />
 		<Protobuf Include="Proto\messages.proto" GrpcServices="Both" />
+		<Protobuf Include="Proto\path_segments.proto" GrpcServices="Both" />
 	</ItemGroup>
 </Project>

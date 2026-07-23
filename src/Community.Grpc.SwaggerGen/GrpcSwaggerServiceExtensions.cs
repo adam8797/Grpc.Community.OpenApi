@@ -3,6 +3,7 @@
 
 using System.Text.Json;
 using Grpc.Shared;
+using Community.Grpc.SwaggerGen;
 using Community.Grpc.SwaggerGen.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -24,9 +25,22 @@ public static class GrpcSwaggerServiceExtensions
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
     /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
-    public static IServiceCollection AddGrpcSwagger(this IServiceCollection services)
+    public static IServiceCollection AddGrpcSwagger(this IServiceCollection services) => services.AddGrpcSwagger(configureOptions: null);
+
+    /// <summary>
+    /// Adds gRPC JSON transcoding services to the specified <see cref="IServiceCollection" /> and configures the gRPC swagger options.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
+    /// <param name="configureOptions">A callback used to configure <see cref="GrpcSwaggerOptions"/>. May be <see langword="null"/> to leave options at their defaults.</param>
+    /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+    public static IServiceCollection AddGrpcSwagger(this IServiceCollection services, Action<GrpcSwaggerOptions>? configureOptions)
     {
         ArgumentNullException.ThrowIfNull(services);
+
+        if (configureOptions is not null)
+        {
+            services.Configure(configureOptions);
+        }
 
         services.AddGrpc().AddJsonTranscoding();
 

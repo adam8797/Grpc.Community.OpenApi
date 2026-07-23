@@ -1,0 +1,63 @@
+// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+
+service WidgetService {
+  rpc GetWidget (WidgetRequest) returns (WidgetResponse) {
+    option (google.api.http) = {
+      get: "/v1/{name=widgets/*}"
+    };
+  };
+}
+
+message WidgetRequest {
+  string name = 1;
+}
+
+message WidgetResponse {
+  string name = 1;
+}
+
+service ThingService {
+  rpc GetThing (ThingRequest) returns (ThingResponse) {
+    option (google.api.http) = {
+      get: "/v1/{name=things/*}"
+    };
+  };
+
+  rpc GetChildThing (ThingRequest) returns (ThingResponse) {
+    option (google.api.http) = {
+      get: "/v1/{name=things/*/children/*}"
+    };
+  }
+
+  rpc ExtraThingAction (ThingRequest) returns (ThingResponse) {
+    option (google.api.http) = {
+      get: "/v1/{name=things/*}:extraAction"
+    };
+  }
+
+  rpc ExtraChildThingAction (ThingRequest) returns (ThingResponse) {
+    option (google.api.http) = {
+      get: "/v1/{name=things/*/children/*}:extraAction"
+    };
+  }
+
+  rpc ListThings (ThingRequest) returns (ThingResponse)
+  {
+    option (google.api.http) = {
+      get: "/v1/{name=things/*}/children"
+    };
+  }
+}
+
+message ThingRequest {
+  string name = 1;
+}
+
+message ThingResponse {
+  string name = 1;
+}

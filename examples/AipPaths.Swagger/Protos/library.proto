@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+option csharp_namespace = "AipPaths";
+
+package library;
+
+import "google/api/annotations.proto";
+
+// A library service modeled after Google's AIP resource-name style
+// (https://google.aip.dev/131): every resource is addressed by a single
+// `name` field whose value embeds the full resource path, e.g.
+// "shelves/1" or "shelves/1/books/2".
+//
+// Because both GetShelf and GetBook bind their route through a field called
+// `name`, the default (collapsed) OpenAPI rendering of both would be
+// "GET /v1/{name}" — a conflict. See Program.cs for how
+// ExpandLiteralPathSegments and ResolveOpenApiPath fix that.
+service Library {
+  // GET /v1/shelves/{name} once literal segments are expanded.
+  rpc GetShelf (GetShelfRequest) returns (Shelf) {
+    option (google.api.http) = {
+      get: "/v1/{name=shelves/*}"
+    };
+  }
+
+  // GET /v1/shelves/{name}/books/{name1} once expanded — one OpenAPI
+  // parameter per wildcard. Program.cs renames them to shelfId/bookId.
+  rpc GetBook (GetBookRequest) returns (Book) {
+    option (google.api.http) = {
+      get: "/v1/{name=shelves/*/books/*}"
+    };
+  }
+
+  // GET /v1/shelves/{parent}/books once expanded.
+  rpc ListBooks (ListBooksRequest) returns (ListBooksResponse) {
+    option (google.api.http) = {
+      get: "/v1/{parent=shelves/*}/books"
+    };
+  }
+}
+
+message GetShelfRequest {
+  // The resource name of the shelf, e.g. "shelves/1".
+  string name = 1;
+}
+
+message Shelf {
+  string name = 1;
+  string theme = 2;
+}
+
+message GetBookRequest {
+  // The resource name of the book, e.g. "shelves/1/books/2".
+  string name = 1;
+}
+
+message Book {
+  string name = 1;
+  string title = 2;
+}
+
+message ListBooksRequest {
+  // The parent shelf, e.g. "shelves/1".
+  string parent = 1;
+}
+
+message ListBooksResponse {
+  repeated Book books = 1;
+}
